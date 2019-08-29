@@ -3,38 +3,7 @@
     <v-navigation-drawer v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" app>
       <v-list dense>
         <template v-for="item in items">
-          <v-row v-if="item.heading" :key="item.heading" align="center">
-            <v-col cols="6">
-              <v-subheader v-if="item.heading">{{ item.heading }}</v-subheader>
-            </v-col>
-            <v-col cols="6" class="text-center">
-              <a href="#!" class="body-2 black--text">EDIT</a>
-            </v-col>
-          </v-row>
-          <v-list-group
-            v-else-if="item.children"
-            :key="item.text"
-            v-model="item.model"
-            :prepend-icon="item.model ? item.icon : item['icon-alt']"
-            append-icon
-          >
-            <template v-slot:activator>
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title>{{ item.text }}</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </template>
-            <v-list-item v-for="(child, i) in item.children" :key="i">
-              <v-list-item-action v-if="child.icon">
-                <v-icon>{{ child.icon }}</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title>{{ child.text }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-group>
-          <v-list-item v-else :key="item.text">
+          <v-list-item :key="item.text" :to="item.routeto">
             <v-list-item-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-action>
@@ -64,9 +33,11 @@
       </v-btn>
       <div class="flex-grow-1"></div>
     </v-app-bar>
-    <v-content>
-      <v-container class="fill-height" fluid>
-        <v-row align="center" justify="center"></v-row>
+    <v-content full-height fluid>
+      <v-container>
+        <v-layout>
+          <router-view />
+        </v-layout>
       </v-container>
     </v-content>
     <v-btn bottom color="blue" dark fab fixed right @click="showDialog">
@@ -81,11 +52,7 @@
               <v-text-field label="Payload" v-model="basePayload"></v-text-field>
             </v-col>
             <v-col cols="2">
-              <v-text-field
-                label="Версия протокола"
-                placeholder="Версия протокола"
-                v-model="encodedPayload.protocolVersion"
-              ></v-text-field>
+              <v-text-field label="Версия протокола" v-model="encodedPayload.protocolVersion"></v-text-field>
             </v-col>
             <v-col cols="2">
               <v-text-field label="commandId" v-model="encodedPayload.commandId"></v-text-field>
@@ -160,12 +127,12 @@ export default {
     dialog: false,
     drawer: null,
     items: [
-      { icon: "mdi-history", text: "Uplink" },
-      { icon: "mdi-ticket-confirmation", text: "ACK" },
-      { icon: "mdi-alert-circle", text: "Error" },
-      { icon: "mdi-set-center-right", text: "Join" },
-      { icon: "mdi-map-marker", text: "Location" },
-      { icon: "mdi-information-outline", text: "Status" }
+      { icon: "mdi-history", text: "Uplink", routeto: "/" },
+      { icon: "mdi-ticket-confirmation", text: "ACK", routeto: "/ack" },
+      { icon: "mdi-alert-circle", text: "Error", routeto: "/errors" },
+      { icon: "mdi-set-center-right", text: "Join", routeto: "/join" },
+      { icon: "mdi-map-marker", text: "Location", routeto: "/location" },
+      { icon: "mdi-information-outline", text: "Status", routeto: "/status" }
     ],
     basePayload: "",
     encodedPayload: {

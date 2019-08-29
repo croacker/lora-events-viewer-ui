@@ -1,5 +1,5 @@
 <template>
-  <div>HomeLayout</div>
+  <div>Location Journal</div>
 </template>
 
 <script>

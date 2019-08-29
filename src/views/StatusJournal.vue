@@ -1,5 +1,5 @@
 <template>
-  <div>HomeLayout</div>
+  <div>Status Journal</div>
 </template>
 
 <script>

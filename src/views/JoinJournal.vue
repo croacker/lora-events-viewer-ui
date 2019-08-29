@@ -1,5 +1,5 @@
 <template>
-  <div>HomeLayout</div>
+  <div>Join Journal</div>
 </template>
 
 <script>

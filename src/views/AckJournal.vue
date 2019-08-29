@@ -1,5 +1,5 @@
 <template>
-  <div>HomeLayout</div>
+  <div>ACK Journal</div>
 </template>
 
 <script>

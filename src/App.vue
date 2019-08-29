@@ -1,18 +1,14 @@
 <template>
-  <v-app>
-    <v-content>
-      <HelloWorld />
-    </v-content>
-  </v-app>
+  <MainLayout />
 </template>
 
 <script>
-import HelloWorld from "./components/MainLayout";
+import MainLayout from "./components/MainLayout";
 
 export default {
   name: "App",
   components: {
-    HelloWorld
+    MainLayout
   },
   data: () => ({
     //

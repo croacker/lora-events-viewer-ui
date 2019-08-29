@@ -1,6 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+import AckJournal from './views/AckJournal.vue'
+import ErrorsJournal from './views/ErrorsJournal.vue'
+import JoinJournal from './views/JoinJournal.vue'
+import LocationJournal from './views/LocationJournal.vue'
+import StatusJournal from './views/StatusJournal.vue'
+import UplinkJournal from './views/UplinkJournal.vue'
 
 Vue.use(Router)
 
@@ -10,8 +15,33 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home
+      name: 'uplink',
+      component: UplinkJournal
+    },
+    {
+      path: '/ack',
+      name: 'ack',
+      component: AckJournal
+    },
+    {
+      path: '/errors',
+      name: 'errors',
+      component: ErrorsJournal
+    },
+    {
+      path: '/join',
+      name: 'join',
+      component: JoinJournal
+    },
+    {
+      path: '/location',
+      name: 'location',
+      component: LocationJournal
+    },
+    {
+      path: '/status',
+      name: 'status',
+      component: StatusJournal
     },
     {
       path: '/about',
