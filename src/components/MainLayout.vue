@@ -40,9 +40,9 @@
         </v-layout>
       </v-container>
     </v-content>
-    <v-btn bottom color="blue" dark fab fixed right @click="showDialog">
+    <!-- <v-btn bottom color="blue" dark fab fixed right @click="showDialog">
       <v-icon>mdi-magnify</v-icon>
-    </v-btn>
+    </v-btn>-->
     <v-dialog v-model="dialog" width="800px">
       <v-card>
         <v-card-title class="grey darken-2">Данные Payload</v-card-title>
@@ -113,8 +113,8 @@
 <script>
 import axios from "axios";
 
- const FROM_BASE64 = "http://127.0.0.1:8085/device-up-payload/from-base64/";
- const FROM_HEX = "http://127.0.0.1:8085/device-up-payload/from-hex/";
+const FROM_BASE64 = "http://127.0.0.1:8085/device-up-payload/from-base64/";
+const FROM_HEX = "http://127.0.0.1:8085/device-up-payload/from-hex/";
 
 //const FROM_BASE64 = "/device-up-payload/from-base64/";
 //const FROM_HEX = "/device-up-payload/from-hex/";
@@ -185,7 +185,6 @@ export default {
         this.encodedPayload.step = response.data.step;
         this.encodedPayload.distance = response.data.distance;
 
-        console.log(response.data);
         this.showDialog();
       });
     },

@@ -16,14 +16,14 @@
 <script>
     import axios from "axios";
 
-    const GET_URL = "http://127.0.0.1:8085/device-locations";
-    // const GET_URL = "/device-locations";
+    // const GET_URL = "http://127.0.0.1:8085/device-locations";
+    const GET_URL = "/device-locations";
 
     export default {
         data: () => ({
             options: {
                 page: 1,
-                itemsPerPage: 15
+                itemsPerPage: 10
             },
             serverItemsLength: 10,
             headers: [
@@ -63,7 +63,6 @@
                 const url = `${GET_URL}/count`;
                 axios.get(url).then(response => {
                     this.serverItemsLength = response.data.count;
-                    console.log(response.data);
                 });
             },
             getItems() {
@@ -77,7 +76,6 @@
                         return item;
                     });
                     this.eventItems = response.data;
-                    console.log(response.data);
                 });
             },
             byteToHex(arr) {

@@ -20,14 +20,14 @@
 <script>
 import axios from "axios";
 
-const GET_URL = "http://127.0.0.1:8085/device-ups";
-// const GET_URL = "/device-ups";
+// const GET_URL = "http://127.0.0.1:8085/device-ups";
+const GET_URL = "/device-ups";
 
 export default {
   data: () => ({
     options: {
       page: 1,
-      itemsPerPage: 15
+      itemsPerPage: 10
     },
     serverItemsLength: 10,
     headers: [
@@ -42,13 +42,18 @@ export default {
       { text: "receivedAt", value: "receivedAt" },
       { text: "devEui", value: "devEuiHex" },
       { text: "deviceName", value: "deviceName" },
-    //   { text: "applicationId", value: "applicationId" },
-      { text: "applicationName", value: "applicationName" },
+      //   { text: "applicationId", value: "applicationId" },
+      {
+        text: "applicationName",
+        value: "applicationName",
+        width: "100px",
+        fixed: true
+      },
       { text: "frequency", value: "frequency" },
       { text: "dr", value: "dr" },
-    //   { text: "adr", value: "adr" },
+      //   { text: "adr", value: "adr" },
       { text: "fCnt", value: "fCnt" },
-    //   { text: "fPort", value: "fPort" },
+      //   { text: "fPort", value: "fPort" },
       { text: "data", value: "dataBase64", width: "400px", fixed: true },
       { text: "rxInfo", value: "rxInfoDescription" }
     ],
@@ -70,7 +75,6 @@ export default {
       const url = `${GET_URL}/count`;
       axios.get(url).then(response => {
         this.serverItemsLength = response.data.count;
-        console.log(response.data);
       });
     },
     getItems() {
@@ -87,7 +91,6 @@ export default {
           return item;
         });
         this.eventItems = response.data;
-        console.log(response.data);
       });
     },
     byteToHex(arr) {
