@@ -10,7 +10,11 @@
     @update:page="pageChange"
     @update:items-per-page="itemsPerPageChange"
     fill-height
-  ></v-data-table>
+  >
+    <!-- <template v-slot:item.dataBase64="{ item }">
+      <v-icon small class="mr-2" @click="showPayload(item)">edit</v-icon>
+    </template>-->
+  </v-data-table>
 </template>
 
 <script>
@@ -32,24 +36,21 @@ export default {
         align: "left",
         sortable: false,
         value: "id",
-        key: true,
         width: "100px",
         fixed: true
       },
       { text: "receivedAt", value: "receivedAt" },
       { text: "devEui", value: "devEuiHex" },
       { text: "deviceName", value: "deviceName" },
-      { text: "applicationId", value: "applicationId" },
+    //   { text: "applicationId", value: "applicationId" },
       { text: "applicationName", value: "applicationName" },
       { text: "frequency", value: "frequency" },
       { text: "dr", value: "dr" },
-      { text: "adr", value: "adr" },
+    //   { text: "adr", value: "adr" },
       { text: "fCnt", value: "fCnt" },
-      { text: "fPort", value: "fPort" },
-      //   { text: "tags", value: "tags" },
+    //   { text: "fPort", value: "fPort" },
       { text: "data", value: "dataBase64", width: "400px", fixed: true },
       { text: "rxInfo", value: "rxInfoDescription" }
-      //   { text: "object", value: "object" }
     ],
     eventItems: []
   }),
@@ -101,7 +102,7 @@ export default {
       for (let i = 0; i < len; i++) {
         binary += String.fromCharCode(bytes[i]);
       }
-      return btoa(binary) + "...";
+      return btoa(binary);
     }
   }
 };
