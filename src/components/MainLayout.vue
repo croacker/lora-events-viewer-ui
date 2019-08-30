@@ -112,12 +112,10 @@
 
 <script>
 import axios from "axios";
+import config from "../config/config";
 
-const FROM_BASE64 = "http://127.0.0.1:8085/device-up-payload/from-base64/";
-const FROM_HEX = "http://127.0.0.1:8085/device-up-payload/from-hex/";
-
-//const FROM_BASE64 = "/device-up-payload/from-base64/";
-//const FROM_HEX = "/device-up-payload/from-hex/";
+const FROM_BASE64 = `${config.APP_URL}/device-up-payload/from-base64/`;
+const FROM_HEX = `${config.APP_URL}/device-up-payload/from-hex/`;
 
 export default {
   props: {

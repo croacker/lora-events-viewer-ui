@@ -15,9 +15,9 @@
 
 <script>
 import axios from "axios";
+import config from "../config/config";
 
-// const GET_URL = "http://127.0.0.1:8085/device-statuses";
-const GET_URL = "/device-statuses";
+const GET_URL = `${config.APP_URL}/device-statuses`;
 
 export default {
   data: () => ({
