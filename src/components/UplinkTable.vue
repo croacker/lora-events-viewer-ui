@@ -1,45 +1,38 @@
 <template>
-  <v-data-table dense :headers="headers" :items="uplinks" item-key="devEui" class="elevation-1">
-    <thead>
-      <tr>
-        <th class="text-left">id</th>
-        <th class="text-left">receivedAt</th>
-        <th class="text-left">devEui</th>
-        <th class="text-left">deviceName</th>
-        <th class="text-left">applicationId</th>
-        <th class="text-left">applicationName</th>
-        <th class="text-left">frequency</th>
-        <th class="text-left">dr</th>
-        <th class="text-left">adr</th>
-        <th class="text-left">fCnt</th>
-        <th class="text-left">fPort</th>
-        <th class="text-left">tags</th>
-        <th class="text-left">data</th>
-        <th class="text-left">rxInfo</th>
-        <th class="text-left">object</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="item in desserts" :key="item.devId">
-        <td>{{ item.name }}</td>
-        <td>{{ item.devId }}</td>
-      </tr>
-    </tbody>
-  </v-data-table>
+  <v-data-table
+    dense
+    :headers="headers"
+    :items="uplinks"
+    :options="options"
+    :server-items-length="serverItemsLength"
+    item-key="id"
+    class="elevation-1"
+    @update:page="pageChange"
+    @update:items-per-page="itemsPerPageChange"
+    fill-height
+  ></v-data-table>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data: () => ({
+    options: {
+      page: 1,
+      itemsPerPage: 15
+    },
+    serverItemsLength: 10,
     headers: [
       {
         text: "id",
         align: "left",
         sortable: false,
-        value: "id"
+        value: "id",
+        key: true
       },
       { text: "receivedAt", value: "receivedAt" },
-      { text: "devEui", value: "devEui" },
+      { text: "devEui", value: "devEuiHex" },
       { text: "deviceName", value: "deviceName" },
       { text: "applicationId", value: "applicationId" },
       { text: "applicationName", value: "applicationName" },
@@ -48,53 +41,63 @@ export default {
       { text: "adr", value: "adr" },
       { text: "fCnt", value: "fCnt" },
       { text: "fPort", value: "fPort" },
-      { text: "tags", value: "tags" },
-      { text: "data", value: "data" },
-      { text: "rxInfo", value: "rxInfo" },
-      { text: "object", value: "object" }
+      //   { text: "tags", value: "tags" },
+      { text: "data", value: "dataBase64", width: "200px", fixed: true },
+      { text: "rxInfo", value: "rxInfoDescription" }
+      //   { text: "object", value: "object" }
     ],
-    uplinks: [
-      {
-        applicationName: "GlobalSat",
-        devEui: 159
-      },
-      {
-        applicationName: "GlobalSat",
-        devEui: 237
-      },
-      {
-        applicationName: "GlobalSat",
-        devEui: 262
-      },
-      {
-        applicationName: "GlobalSat",
-        devEui: 305
-      },
-      {
-        applicationName: "GlobalSat",
-        devEui: 356
-      },
-      {
-        applicationName: "GlobalSat",
-        devEui: 375
-      },
-      {
-        applicationName: "GlobalSat",
-        devEui: 392
-      },
-      {
-        applicationName: "GlobalSat",
-        devEui: 408
-      },
-      {
-        applicationName: "GlobalSat",
-        devEui: 452
-      },
-      {
-        applicationName: "GlobalSat",
-        devEui: 518
+    uplinks: []
+  }),
+  created: function() {
+    this.getTotalCount();
+  },
+  methods: {
+    pageChange: function(page) {
+      this.options.page = page;
+      this.getItems();
+    },
+    itemsPerPageChange: function(itemsPerPage) {
+      this.options.itemsPerPage = itemsPerPage;
+      this.getItems();
+    },
+    getTotalCount() {
+      const url = "http://127.0.0.1:8085/device-ups/count";
+      axios.get(url).then(response => {
+        this.serverItemsLength = response.data.count;
+        console.log(response.data);
+      });
+    },
+    getItems() {
+      const limit = this.options.itemsPerPage;
+      const offset = limit * (this.options.page - 1);
+      const url = `http://127.0.0.1:8085/device-ups?filter[limit]=${limit}&filter[offset]=${offset}&filter[order]=receivedAt%20DESC`;
+      axios.get(url).then(response => {
+        const byteToHex = this.byteToHex;
+        const byteToBase64 = this.byteToBase64;
+        response.data.map(function(item) {
+          item.devEuiHex = byteToHex(item.devEui.data);
+          item.dataBase64 = byteToBase64(item.data.data);
+          item.rxInfoDescription = "JSON";
+          return item;
+        });
+        this.uplinks = response.data;
+        console.log(response.data);
+      });
+    },
+    byteToHex(arr) {
+      return Array.from(arr, function(byte) {
+        return ("0" + (byte & 0xff).toString(16)).slice(-2);
+      }).join("");
+    },
+    byteToBase64(arr) {
+      var binary = "";
+      var bytes = new Uint8Array(arr);
+      var len = bytes.byteLength;
+      for (var i = 0; i < 10; i++) {
+        binary += String.fromCharCode(bytes[i]);
       }
-    ]
-  })
+      return btoa(binary) + "...";
+    }
+  }
 };
 </script>
