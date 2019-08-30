@@ -10,7 +10,12 @@
     @update:page="pageChange"
     @update:items-per-page="itemsPerPageChange"
     fill-height
-  ></v-data-table>
+  >  <template v-slot:item.dataBase64="{ item }">
+    <v-icon small
+            class="mr-2"
+            @click="showPayload(item)">edit</v-icon>
+  </template>
+  </v-data-table>
 </template>
 
 <script>
@@ -31,8 +36,7 @@ export default {
         text: "id",
         align: "left",
         sortable: false,
-        value: "id",
-        key: true
+        value: "id"
       },
       { text: "receivedAt", value: "receivedAt" },
       { text: "devEui", value: "devEuiHex" },
@@ -44,10 +48,8 @@ export default {
       { text: "adr", value: "adr" },
       { text: "fCnt", value: "fCnt" },
       { text: "fPort", value: "fPort" },
-      //   { text: "tags", value: "tags" },
       { text: "data", value: "dataBase64", width: "200px", fixed: true },
       { text: "rxInfo", value: "rxInfoDescription" }
-      //   { text: "object", value: "object" }
     ],
     eventItems: []
   }),
