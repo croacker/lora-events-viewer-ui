@@ -32,7 +32,9 @@ export default {
         align: "left",
         sortable: false,
         value: "id",
-        key: true
+        key: true,
+        width: "100px",
+        fixed: true
       },
       { text: "receivedAt", value: "receivedAt" },
       { text: "devEui", value: "devEuiHex" },
@@ -45,7 +47,7 @@ export default {
       { text: "fCnt", value: "fCnt" },
       { text: "fPort", value: "fPort" },
       //   { text: "tags", value: "tags" },
-      { text: "data", value: "dataBase64", width: "200px", fixed: true },
+      { text: "data", value: "dataBase64", width: "400px", fixed: true },
       { text: "rxInfo", value: "rxInfoDescription" }
       //   { text: "object", value: "object" }
     ],
@@ -94,9 +96,9 @@ export default {
     },
     byteToBase64(arr) {
       let binary = "";
-      let bytes = new Uint8Array(arr);
-      // let len = bytes.byteLength;
-      for (let i = 0; i < 10; i++) {
+      const bytes = new Uint8Array(arr);
+      const len = bytes.byteLength;
+      for (let i = 0; i < len; i++) {
         binary += String.fromCharCode(bytes[i]);
       }
       return btoa(binary) + "...";
@@ -106,7 +108,7 @@ export default {
 </script>
 
 <style>
-  .full-width-data-table {
-    width: 100%;
-  }
+.full-width-data-table {
+  width: 100%;
+}
 </style>
