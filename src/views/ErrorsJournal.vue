@@ -1,9 +1,10 @@
 <template>
-  <div>Errors Journal</div>
+  <ErrorsTable></ErrorsTable>
 </template>
 
 <script>
+import ErrorsTable from "../components/ErrorsTable";
 export default {
-  components: {}
+  components: {ErrorsTable}
 };
 </script>

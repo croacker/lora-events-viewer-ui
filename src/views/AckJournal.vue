@@ -1,9 +1,13 @@
 <template>
-  <div>ACK Journal</div>
+  <AckTable></AckTable>
 </template>
 
 <script>
+import AckTable from "../components/AckTable";
+
 export default {
-  components: {}
+  components: {
+    AckTable
+  }
 };
 </script>

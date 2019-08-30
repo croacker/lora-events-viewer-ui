@@ -1,9 +1,10 @@
 <template>
-  <div>Location Journal</div>
+  <LocationTable></LocationTable>
 </template>
 
 <script>
+import LocationTable from "../components/LocationTable";
 export default {
-  components: {}
+  components: {LocationTable}
 };
 </script>

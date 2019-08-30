@@ -1,9 +1,12 @@
 <template>
-  <div>Join Journal</div>
+  <JoinTable></JoinTable>
 </template>
 
 <script>
+import JoinTable from "../components/JoinTable";
 export default {
-  components: {}
+  components: {
+    JoinTable
+  }
 };
 </script>

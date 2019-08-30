@@ -1,9 +1,10 @@
 <template>
-  <div>Status Journal</div>
+  <StatusTable></StatusTable>
 </template>
 
 <script>
+import StatusTable from "../components/StatusTable";
 export default {
-  components: {}
+  components: {StatusTable}
 };
 </script>

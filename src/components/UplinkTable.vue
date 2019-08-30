@@ -2,11 +2,11 @@
   <v-data-table
     dense
     :headers="headers"
-    :items="uplinks"
+    :items="eventItems"
     :options="options"
     :server-items-length="serverItemsLength"
     item-key="id"
-    class="elevation-1"
+    class="elevation-1 full-width-data-table"
     @update:page="pageChange"
     @update:items-per-page="itemsPerPageChange"
     fill-height
@@ -15,6 +15,9 @@
 
 <script>
 import axios from "axios";
+
+const GET_URL = "http://127.0.0.1:8085/device-ups";
+// const GET_URL = "/device-ups";
 
 export default {
   data: () => ({
@@ -46,7 +49,7 @@ export default {
       { text: "rxInfo", value: "rxInfoDescription" }
       //   { text: "object", value: "object" }
     ],
-    uplinks: []
+    eventItems: []
   }),
   created: function() {
     this.getTotalCount();
@@ -61,7 +64,7 @@ export default {
       this.getItems();
     },
     getTotalCount() {
-      const url = "http://127.0.0.1:8085/device-ups/count";
+      const url = `${GET_URL}/count`;
       axios.get(url).then(response => {
         this.serverItemsLength = response.data.count;
         console.log(response.data);
@@ -70,7 +73,7 @@ export default {
     getItems() {
       const limit = this.options.itemsPerPage;
       const offset = limit * (this.options.page - 1);
-      const url = `http://127.0.0.1:8085/device-ups?filter[limit]=${limit}&filter[offset]=${offset}&filter[order]=receivedAt%20DESC`;
+      const url = `${GET_URL}?filter[limit]=${limit}&filter[offset]=${offset}&filter[order]=receivedAt%20DESC`;
       axios.get(url).then(response => {
         const byteToHex = this.byteToHex;
         const byteToBase64 = this.byteToBase64;
@@ -80,7 +83,7 @@ export default {
           item.rxInfoDescription = "JSON";
           return item;
         });
-        this.uplinks = response.data;
+        this.eventItems = response.data;
         console.log(response.data);
       });
     },
@@ -90,10 +93,10 @@ export default {
       }).join("");
     },
     byteToBase64(arr) {
-      var binary = "";
-      var bytes = new Uint8Array(arr);
-      var len = bytes.byteLength;
-      for (var i = 0; i < 10; i++) {
+      let binary = "";
+      let bytes = new Uint8Array(arr);
+      // let len = bytes.byteLength;
+      for (let i = 0; i < 10; i++) {
         binary += String.fromCharCode(bytes[i]);
       }
       return btoa(binary) + "...";
@@ -101,3 +104,9 @@ export default {
   }
 };
 </script>
+
+<style>
+  .full-width-data-table {
+    width: 100%;
+  }
+</style>
