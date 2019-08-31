@@ -6,6 +6,7 @@ import JoinJournal from './views/JoinJournal.vue'
 import LocationJournal from './views/LocationJournal.vue'
 import StatusJournal from './views/StatusJournal.vue'
 import UplinkJournal from './views/UplinkJournal.vue'
+import Lw360hrJournal from './views/Lw360hrJournal.vue'
 
 Vue.use(Router)
 
