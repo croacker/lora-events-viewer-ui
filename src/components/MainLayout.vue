@@ -40,9 +40,6 @@
         </v-layout>
       </v-container>
     </v-content>
-    <!-- <v-btn bottom color="blue" dark fab fixed right @click="showDialog">
-      <v-icon>mdi-magnify</v-icon>
-    </v-btn>-->
     <v-dialog v-model="dialog" width="800px">
       <v-card>
         <v-card-title class="grey darken-2">Данные Payload</v-card-title>
@@ -125,7 +122,13 @@ export default {
     dialog: false,
     drawer: null,
     items: [
-      { icon: "mdi-history", text: "Uplink", routeto: "/" },
+      { icon: "mdi-history", text: "Uplink", routeto: "/",
+        children:[
+          {
+            icon: "mdi-history", text: "LW-360HR", routeto: "/lw360hr"
+          }
+        ]
+      },
       { icon: "mdi-ticket-confirmation", text: "ACK", routeto: "/ack" },
       { icon: "mdi-alert-circle", text: "Error", routeto: "/errors" },
       { icon: "mdi-set-center-right", text: "Join", routeto: "/join" },

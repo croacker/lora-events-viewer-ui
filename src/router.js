@@ -19,6 +19,11 @@ export default new Router({
       component: UplinkJournal
     },
     {
+      path: '/lw360hr',
+      name: 'lw360hr',
+      component: Lw360hrJournal
+    },
+    {
       path: '/ack',
       name: 'ack',
       component: AckJournal
