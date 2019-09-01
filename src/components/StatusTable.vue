@@ -16,6 +16,7 @@
 <script>
 import axios from "axios";
 import config from "../config/config";
+import DataService from "../service/DataService";
 
 const GET_URL = `${config.APP_URL}/device-statuses`;
 
@@ -69,18 +70,12 @@ export default {
       const offset = limit * (this.options.page - 1);
       const url = `${GET_URL}?filter[limit]=${limit}&filter[offset]=${offset}&filter[order]=receivedAt%20DESC`;
       axios.get(url).then(response => {
-        const byteToHex = this.byteToHex;
         response.data.map(function(item) {
-          item.devEuiHex = byteToHex(item.devEui.data);
+          item.devEuiHex = DataService.byteToHex(item.devEui.data);
           return item;
         });
         this.eventItems = response.data;
       });
-    },
-    byteToHex(arr) {
-      return Array.from(arr, function(byte) {
-        return ("0" + (byte & 0xff).toString(16)).slice(-2);
-      }).join("");
     }
   }
 };

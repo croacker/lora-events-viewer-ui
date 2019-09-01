@@ -20,6 +20,7 @@
 <script>
 import axios from "axios";
 import config from "../config/config";
+import DataService from "../service/DataService";
 
 const GET_URL = `${config.APP_URL}/device-ups`;
 
@@ -82,30 +83,14 @@ export default {
       const offset = limit * (this.options.page - 1);
       const url = `${GET_URL}?filter[limit]=${limit}&filter[offset]=${offset}&filter[order]=receivedAt%20DESC`;
       axios.get(url).then(response => {
-        const byteToHex = this.byteToHex;
-        const byteToBase64 = this.byteToBase64;
         response.data.map(function(item) {
-          item.devEuiHex = byteToHex(item.devEui.data);
-          item.dataBase64 = byteToBase64(item.data.data);
+          item.devEuiHex = DataService.byteToHex(item.devEui.data);
+          item.dataBase64 = DataService.byteToBase64(item.data.data);
           item.rxInfoDescription = "JSON";
           return item;
         });
         this.eventItems = response.data;
       });
-    },
-    byteToHex(arr) {
-      return Array.from(arr, function(byte) {
-        return ("0" + (byte & 0xff).toString(16)).slice(-2);
-      }).join("");
-    },
-    byteToBase64(arr) {
-      let binary = "";
-      const bytes = new Uint8Array(arr);
-      const len = bytes.byteLength;
-      for (let i = 0; i < len; i++) {
-        binary += String.fromCharCode(bytes[i]);
-      }
-      return btoa(binary);
     }
   }
 };

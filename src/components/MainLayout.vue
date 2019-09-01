@@ -48,15 +48,6 @@
               <v-list-item-title>{{ item.text }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-
-<!--          <v-list-item :key="item.text" :to="item.routeto">-->
-<!--            <v-list-item-action>-->
-<!--              <v-icon>{{ item.icon }}</v-icon>-->
-<!--            </v-list-item-action>-->
-<!--            <v-list-item-content>-->
-<!--              <v-list-item-title>{{ item.text }}</v-list-item-title>-->
-<!--            </v-list-item-content>-->
-<!--          </v-list-item>-->
         </template>
       </v-list>
     </v-navigation-drawer>
