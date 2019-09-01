@@ -3,7 +3,44 @@
     <v-navigation-drawer v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" app>
       <v-list dense>
         <template v-for="item in items">
-          <v-list-item :key="item.text" :to="item.routeto">
+          <v-list-group
+                  v-if="item.children"
+                  :key="item.text"
+                  v-model="item.model"
+                  :prepend-icon="item.model ? item.icon : item['icon-alt']"
+                  append-icon=""
+          >
+            <template v-slot:activator>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    {{ item.text }}
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </template>
+            <v-list-item
+                    v-for="child in item.children"
+                    :key="child.text"
+                    :to="child.routeto"
+            >
+              <v-list-item-action v-if="child.icon">
+                <v-icon>{{ child.icon }}</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>
+                  {{ child.text }}
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-group>
+          <v-divider
+                  v-else-if="item.divider"
+                  :key="item.text"
+                  dark
+                  class="my-4"
+          ></v-divider>
+          <v-list-item v-else :key="item.text" :to="item.routeto">
             <v-list-item-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-action>
@@ -11,6 +48,15 @@
               <v-list-item-title>{{ item.text }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+
+<!--          <v-list-item :key="item.text" :to="item.routeto">-->
+<!--            <v-list-item-action>-->
+<!--              <v-icon>{{ item.icon }}</v-icon>-->
+<!--            </v-list-item-action>-->
+<!--            <v-list-item-content>-->
+<!--              <v-list-item-title>{{ item.text }}</v-list-item-title>-->
+<!--            </v-list-item-content>-->
+<!--          </v-list-item>-->
         </template>
       </v-list>
     </v-navigation-drawer>
@@ -122,13 +168,19 @@ export default {
     dialog: false,
     drawer: null,
     items: [
-      { icon: "mdi-history", text: "Uplink", routeto: "/",
+      {icon: 'mdi-chevron-up',
+        'icon-alt': 'mdi-chevron-down',
+        text: "Uplink",
         children:[
           {
-            icon: "mdi-history", text: "LW-360HR", routeto: "/lw360hr"
+            icon: "mdi-history", text: "Uplink data", routeto: "/"
+          },
+          {
+            icon: "mdi-delete-variant", text: "LW-360HR payload", routeto: "/lw360hr"
           }
         ]
       },
+      { divider: true },
       { icon: "mdi-ticket-confirmation", text: "ACK", routeto: "/ack" },
       { icon: "mdi-alert-circle", text: "Error", routeto: "/errors" },
       { icon: "mdi-set-center-right", text: "Join", routeto: "/join" },

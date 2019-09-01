@@ -80,15 +80,6 @@ export default {
       return Array.from(arr, function(byte) {
         return ("0" + (byte & 0xff).toString(16)).slice(-2);
       }).join("");
-    },
-    byteToBase64(arr) {
-      let binary = "";
-      let bytes = new Uint8Array(arr);
-      // var len = bytes.byteLength;
-      for (let i = 0; i < 10; i++) {
-        binary += String.fromCharCode(bytes[i]);
-      }
-      return btoa(binary) + "...";
     }
   }
 };

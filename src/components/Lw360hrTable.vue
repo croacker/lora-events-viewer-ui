@@ -17,7 +17,7 @@
     import axios from "axios";
     import config from "../config/config";
 
-    const GET_URL = `${config.APP_URL}/device-locations`;
+    const GET_URL = `${config.APP_URL}/device-up-payload`;
 
     export default {
         data: () => ({
@@ -27,30 +27,31 @@
             },
             serverItemsLength: 10,
             headers: [
-                {
-                    text: "id",
-                    align: "left",
-                    sortable: false,
-                    value: "id",
-                    key: true
-                },
+                // {
+                //     text: "id",
+                //     align: "left",
+                //     sortable: false,
+                //     value: "id",
+                //     key: true
+                // },
                 { text: "protocolVersion", value: "protocolVersion" },
                 { text: "commandId", value: "commandId" },
                 { text: "longitude", value: "longitude" },
                 { text: "latitude", value: "latitude" },
-                { text: "gpsFixStatus", value: "gpsFixStatus" },
-                { text: "reserve", value: "reserve" },
-                { text: "calorie", value: "calorie" },
-                { text: "batteryCapacity", value: "batteryCapacity" },
+                // { text: "gpsFixStatus", value: "gpsFixStatus" },
+                // { text: "reserve", value: "reserve" },
+
+                // { text: "batteryCapacity", value: "batteryCapacity" },
                 { text: "dateTime", value: "dateTime" },
                 { text: "beaconId", value: "beaconId" },
                 { text: "beaconType", value: "beaconType" },
                 { text: "rssi", value: "rssi" },
-                { text: "txPower", value: "txPower" },
+                // { text: "txPower", value: "txPower" },
+                { text: "calorie", value: "calorie" },
                 { text: "heartRate", value: "heartRate" },
                 { text: "temperature", value: "temperature" },
-                { text: "step", value: "step" },
-                { text: "distance", value: "distance" }
+                // { text: "step", value: "step" },
+                // { text: "distance", value: "distance" }
             ],
             eventItems: []
         }),
@@ -77,27 +78,8 @@
                 const offset = limit * (this.options.page - 1);
                 const url = `${GET_URL}?filter[limit]=${limit}&filter[offset]=${offset}&filter[order]=receivedAt%20DESC`;
                 axios.get(url).then(response => {
-                    const byteToHex = this.byteToHex;
-                    response.data.map(function(item) {
-                        item.devEuiHex = byteToHex(item.devEui.data);
-                        return item;
-                    });
                     this.eventItems = response.data;
                 });
-            },
-            byteToHex(arr) {
-                return Array.from(arr, function(byte) {
-                    return ("0" + (byte & 0xff).toString(16)).slice(-2);
-                }).join("");
-            },
-            byteToBase64(arr) {
-                let binary = "";
-                let bytes = new Uint8Array(arr);
-                // let len = bytes.byteLength;
-                for (let i = 0; i < 10; i++) {
-                    binary += String.fromCharCode(bytes[i]);
-                }
-                return btoa(binary) + "...";
             }
         }
     };
