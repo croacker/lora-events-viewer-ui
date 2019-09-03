@@ -1,4 +1,69 @@
 <template>
+  <div>
+  <v-row>
+    <v-col cols="12" sm="6" md="2">
+      <v-menu
+              ref="menuDateFrom"
+              v-model="menuDateFrom"
+              :close-on-content-click="false"
+              transition="scale-transition"
+              offset-y
+              full-width
+              min-width="290px"
+      >
+        <template v-slot:activator="{ on }">
+          <v-text-field
+                  v-model="filter.dateFrom"
+                  label="Дата с"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-on="on"
+          ></v-text-field>
+        </template>
+        <v-date-picker v-model="filter.dateFrom" @input="filterDateFromChange"></v-date-picker>
+      </v-menu>
+    </v-col>
+    <div class="flex-grow-1"></div>
+    <v-col cols="12" sm="6" md="2">
+      <v-menu
+              ref="menuDateFrom"
+              v-model="menuDateTo"
+              :close-on-content-click="false"
+              transition="scale-transition"
+              offset-y
+              full-width
+              min-width="290px"
+      >
+        <template v-slot:activator="{ on }">
+          <v-text-field
+                  v-model="filter.dateTo"
+                  label="по"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-on="on"
+          ></v-text-field>
+        </template>
+        <v-date-picker v-model="filter.dateTo" @input="filterDateToChange"></v-date-picker>
+      </v-menu>
+    </v-col>
+    <v-col cols="12" sm="6" md="4">
+      <v-text-field
+              v-model="filter.deviceName"
+              label="Фильтр deviceName"
+              prepend-icon="mdi-filter"
+              @input="filterChange"
+      ></v-text-field>
+    </v-col>
+    <v-col cols="12" sm="6" md="4">
+      <v-text-field
+              v-model="filter.applicationName"
+              label="Фильтр applicationName"
+              prepend-icon="mdi-filter"
+              @input="filterChange"
+      ></v-text-field>
+    </v-col>
+    <div class="flex-grow-1"></div>
+  </v-row>
   <v-data-table
     dense
     :headers="headers"
@@ -15,6 +80,7 @@
       <v-icon small class="mr-2" @click="showPayload(item)">edit</v-icon>
     </template>-->
   </v-data-table>
+  </div>
 </template>
 
 <script>
@@ -43,8 +109,7 @@ export default {
       { text: "receivedAt", value: "receivedAt" },
       { text: "devEui", value: "devEuiHex" },
       { text: "deviceName", value: "deviceName" },
-      //   { text: "applicationId", value: "applicationId" },
-      {
+     {
         text: "applicationName",
         value: "applicationName",
         width: "100px",
@@ -52,26 +117,44 @@ export default {
       },
       { text: "frequency", value: "frequency" },
       { text: "dr", value: "dr" },
-      //   { text: "adr", value: "adr" },
       { text: "fCnt", value: "fCnt" },
-      //   { text: "fPort", value: "fPort" },
       { text: "data", value: "dataBase64", width: "400px", fixed: true },
       { text: "rxInfo", value: "rxInfoDescription" }
     ],
-    eventItems: []
+    eventItems: [],
+    dateFrom: new Date().toISOString().substr(0, 10),
+    menuDateFrom: false,
+    dateTo: new Date().toISOString().substr(0, 10),
+    menuDateTo: false,
+    filterDeviceName: '',
+    filterApplicationName:'',
+    filter: new LoopbackFilter,
   }),
   created: function() {
     this.getTotalCount();
   },
   methods: {
-    pageChange: function(page) {
+    pageChange(page) {
       this.options.page = page;
       this.getItems();
     },
-    itemsPerPageChange: function(itemsPerPage) {
+    itemsPerPageChange(itemsPerPage) {
       this.options.itemsPerPage = itemsPerPage;
       this.getItems();
     },
+    filterDateFromChange(){
+      this.menuDateFrom = false;
+      this.filterChange()
+    },
+    filterDateToChange(){
+      this.menuDateTo = false;
+      this.filterChange()
+    },
+    filterChange(){
+      this.getTotalCount();
+      this.getItems();
+    },
+    on(){},
     getTotalCount() {
       const url = `${GET_URL}/count`;
       axios.get(url).then(response => {
@@ -81,7 +164,7 @@ export default {
     getItems() {
       const limit = this.options.itemsPerPage;
       const offset = limit * (this.options.page - 1);
-      const url = `${GET_URL}?filter[limit]=${limit}&filter[offset]=${offset}&filter[order]=receivedAt%20DESC`;
+      const url = `${GET_URL}?filter[limit]=${limit}&filter[offset]=${offset}&filter[order]=receivedAt%20DESC${this.filter.build()}`;
       axios.get(url).then(response => {
         response.data.map(function(item) {
           item.devEuiHex = DataService.byteToHex(item.devEui.data);
@@ -94,6 +177,42 @@ export default {
     }
   }
 };
+
+class LoopbackFilter{
+  constructor(){
+    this.deviceName = '';
+    this.applicationName = '';
+    this.dateFrom = new Date().toISOString().substr(0, 10);
+    this.dateTo = new Date().toISOString().substr(0, 10);
+  }
+
+  build(){
+    return `${this.getBetween()}${this.getDeviceName()}${this.getApplicationName()}`
+  }
+
+  getBetween(){
+    const from = new Date(this.dateFrom).toISOString()
+    const to = new Date(`${this.dateTo}T23:59:59.999Z`).toISOString()
+    return `&filter[where][receivedAt][between][0]=${from}&filter[where][receivedAt][between][1]=${to}`
+  }
+
+  getDeviceName(){
+    let filter = '';
+    if(this.deviceName){
+      filter = `&filter[where][deviceName][like]=%${this.deviceName}%`
+    }
+    return filter
+  }
+
+  getApplicationName(){
+    let filter = '';
+    if(this.applicationName){
+      filter = `&filter[where][applicationName][like]=%${this.applicationName}%`
+    }
+    return filter
+  }
+
+}
 </script>
 
 <style>
