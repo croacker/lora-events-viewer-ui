@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="full-width-data-table">
   <v-row>
     <v-col cols="12" sm="6" md="2">
       <v-menu
@@ -128,7 +128,7 @@ export default {
     menuDateTo: false,
     filterDeviceName: '',
     filterApplicationName:'',
-    filter: new LoopbackFilter,
+    filter: new UplinkFilter(),
   }),
   created: function() {
     this.getTotalCount();
@@ -178,11 +178,11 @@ export default {
   }
 };
 
-class LoopbackFilter{
+class UplinkFilter{
   constructor(){
     this.deviceName = '';
     this.applicationName = '';
-    this.dateFrom = new Date().toISOString().substr(0, 10);
+    this.dateFrom = this.previousMonth().toISOString().substr(0, 10);
     this.dateTo = new Date().toISOString().substr(0, 10);
   }
 
@@ -210,6 +210,13 @@ class LoopbackFilter{
       filter = `&filter[where][applicationName][like]=%${this.applicationName}%`
     }
     return filter
+  }
+
+  previousMonth(){
+    const now = new Date();
+    return now.getMonth() === 0
+            ? new Date(now.getFullYear() - 1, 11, now.getDate())
+            : new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
   }
 
 }
