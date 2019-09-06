@@ -89,5 +89,5 @@ const util = {
 }
 
 export {
-  ui
+  util
 }

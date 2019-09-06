@@ -1,28 +1,7 @@
-import BaseDao from "./base-data-mapper";
+import BaseDao from "./base-dao";
 
 export default class UplinkDao extends BaseDao{
   get url(){
-
+    return 'device-ups' 
   }
-  get fieldMap(){
-        
-  }
-  getCount(filter){
-
-  }
-  async getItem(filter){
-    
-  }
-  async getItems(filter){
-    
-  }
-  map(payload, i){
-
-  }
-  unmap(payload, i){
-    
-  }
-
-  
-
 }

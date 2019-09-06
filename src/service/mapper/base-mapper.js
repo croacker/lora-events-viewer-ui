@@ -12,7 +12,7 @@ export default class BaseMapper{
     return result
   }
 
-  map(payload, i) {
+  map(payload) {
     let item = {}
     for (const [internalKey, externalKey] of this.fieldMap.entries()) {
       let value = null
@@ -26,9 +26,4 @@ export default class BaseMapper{
     }
     return item
   }
-  
-  unmap(payload, i){
-    
-  }
-
 }

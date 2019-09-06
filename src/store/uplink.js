@@ -1,3 +1,5 @@
+import {UplinkDao} from '../service/dao/uplink-dao'
+
 const state = {
     uplinks: [],
     uplink: null
@@ -14,7 +16,8 @@ const mutations = {
 
 const actions = {
     async fetchUplinks({commit}, filter){
-
+        const uplinkDao = new UplinkDao();
+        uplinkDao.getItems()
     },
     async fetchUplink({commit}, filter){
         

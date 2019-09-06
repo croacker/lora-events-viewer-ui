@@ -1,9 +1,24 @@
-import store from 'vuex-store'
+import axios from "axios";
+// import store from 'vuex-store'
 import util from '../util'
+import config from "../../config/config";
+
+const networkAddress = config.APP_URL
+
 
 export default class BaseDao{
-  getCount(filter){
-
+  async getCount(filter){
+    const u = `${util.stringTrimEnd(this.url, '/')}/count/${filter.id}`
+    const response = await this.sendRequest({
+      url: u,
+      method: 'get',
+    })
+    const data = response.data
+    let result = null
+    if (data) {
+      result = data.count
+    }
+    return result
   }
   async getItem(filter){
     const u = `${util.stringTrimEnd(this.url, '/')}/${filter.id}`
@@ -59,7 +74,7 @@ export default class BaseDao{
       targetUrl = util.stringTrim(targetUrl, '?')
     }
 
-    return Axios({
+    return axios({
       method: method,
       url: targetUrl,
       data: bodyFormData,
