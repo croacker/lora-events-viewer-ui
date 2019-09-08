@@ -86,52 +86,52 @@
               <v-text-field label="Payload" v-model="basePayload"></v-text-field>
             </v-col>
             <v-col cols="2">
-              <v-text-field label="Версия протокола" v-model="encodedPayload.protocolVersion"></v-text-field>
+              <v-text-field readonly label="Версия протокола" v-model="encodedPayload.protocolVersion"></v-text-field>
             </v-col>
             <v-col cols="2">
-              <v-text-field label="commandId" v-model="encodedPayload.commandId"></v-text-field>
+              <v-text-field readonly label="commandId" v-model="encodedPayload.commandId"></v-text-field>
             </v-col>
             <v-col cols="4">
-              <v-text-field label="Долгота" v-model="encodedPayload.longitude"></v-text-field>
+              <v-text-field readonly label="Долгота" v-model="encodedPayload.longitude"></v-text-field>
             </v-col>
             <v-col cols="4">
-              <v-text-field label="Широта" v-model="encodedPayload.latitude"></v-text-field>
+              <v-text-field readonly label="Широта" v-model="encodedPayload.latitude"></v-text-field>
             </v-col>
             <v-col cols="2">
-              <v-text-field label="gpsFixStatus" v-model="encodedPayload.gpsFixStatus"></v-text-field>
+              <v-text-field readonly label="gpsFixStatus" v-model="encodedPayload.gpsFixStatus"></v-text-field>
             </v-col>
             <v-col cols="2">
-              <v-text-field label="reserve" v-model="encodedPayload.reserve"></v-text-field>
+              <v-text-field readonly label="reserve" v-model="encodedPayload.reserve"></v-text-field>
             </v-col>
             <v-col cols="8">
-              <v-text-field label="Калории" v-model="encodedPayload.calorie"></v-text-field>
+              <v-text-field readonly label="Калории" v-model="encodedPayload.calorie"></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-text-field label="Дата/время" v-model="encodedPayload.dateTime"></v-text-field>
+              <v-text-field readonly label="Дата/время" v-model="encodedPayload.dateTime"></v-text-field>
             </v-col>
             <v-col cols="10">
-              <v-text-field label="Идентификатор маяка" v-model="encodedPayload.beaconId"></v-text-field>
+              <v-text-field readonly label="Идентификатор маяка" v-model="encodedPayload.beaconId"></v-text-field>
             </v-col>
             <v-col cols="2">
-              <v-text-field label="Тип маяка" v-model="encodedPayload.beaconType"></v-text-field>
+              <v-text-field readonly label="Тип маяка" v-model="encodedPayload.beaconType"></v-text-field>
             </v-col>
             <v-col cols="3">
-              <v-text-field label="rssi" v-model="encodedPayload.rssi"></v-text-field>
+              <v-text-field readonly label="rssi" v-model="encodedPayload.rssi"></v-text-field>
             </v-col>
             <v-col cols="3">
-              <v-text-field label="txPower" v-model="encodedPayload.txPower"></v-text-field>
+              <v-text-field readonly label="txPower" v-model="encodedPayload.txPower"></v-text-field>
             </v-col>
             <v-col cols="3">
-              <v-text-field label="Пульс" v-model="encodedPayload.heartRate"></v-text-field>
+              <v-text-field readonly label="Пульс" v-model="encodedPayload.heartRate"></v-text-field>
             </v-col>
             <v-col cols="3">
-              <v-text-field label="Температура" v-model="encodedPayload.temperature"></v-text-field>
+              <v-text-field readonly label="Температура" v-model="encodedPayload.temperature"></v-text-field>
             </v-col>
             <v-col cols="6">
-              <v-text-field label="Шаг" v-model="encodedPayload.step"></v-text-field>
+              <v-text-field readonly label="Шаг" v-model="encodedPayload.step"></v-text-field>
             </v-col>
             <v-col cols="6">
-              <v-text-field label="Дистанция" v-model="encodedPayload.distance"></v-text-field>
+              <v-text-field readonly label="Дистанция" v-model="encodedPayload.distance"></v-text-field>
             </v-col>
           </v-row>
         </v-container>

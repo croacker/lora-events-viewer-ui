@@ -76,10 +76,28 @@
       @update:items-per-page="itemsPerPageChange"
       fill-height
     >
-      <!-- <template v-slot:item.dataBase64="{ item }">
-      <v-icon small class="mr-2" @click="showPayload(item)">edit</v-icon>
-      </template>-->
+      <template v-slot:item.rxInfo="{ item }">
+        <v-icon small class="mr-2" @click="showRxInfo(item)">mdi-json</v-icon>
+      </template>
     </v-data-table>
+
+    <v-dialog v-model="rxInfoDialog" width="500">
+      <v-card>
+        <v-card-title class="headline grey lighten-2" primary-title>
+          rxInfo
+        </v-card-title>
+        <v-textarea
+                class="mx-2"
+                rows="20"
+                prepend-icon="mdi-json"
+                :value="rxInfoCurrent"
+        ></v-textarea>
+        <v-card-actions>
+          <div class="flex-grow-1"></div>
+          <v-btn color="primary" text @click="rxInfoDialog = false">Закрыть</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -87,11 +105,14 @@
 import axios from "axios";
 import config from "../config/config";
 import DataService from "../service/DataService";
+import UplinkFilter from "../service/dao/uplink-filter"
 
 const GET_URL = `${config.APP_URL}/device-ups`;
 
 export default {
   data: () => ({
+    rxInfoDialog:false,
+    rxInfoCurrent: [],
     options: {
       page: 1,
       itemsPerPage: 10
@@ -103,10 +124,10 @@ export default {
         align: "left",
         sortable: false,
         value: "id",
-        width: "100px",
+        width: "200px",
         fixed: true
       },
-      { text: "receivedAt", value: "receivedAt" },
+      { text: "receivedAt", value: "receivedAtLocale" },
       { text: "devEui", value: "devEuiHex" },
       { text: "deviceName", value: "deviceName" },
       {
@@ -116,10 +137,10 @@ export default {
         fixed: true
       },
       { text: "frequency", value: "frequency" },
-      { text: "dr", value: "dr" },
+      // { text: "dr", value: "dr" },
       { text: "fCnt", value: "fCnt" },
       { text: "data", value: "dataBase64", width: "400px", fixed: true },
-      { text: "rxInfo", value: "rxInfoDescription" }
+      { text: "rxInfo", value: "rxInfo" }
     ],
     eventItems: [],
     dateFrom: new Date().toISOString().substr(0, 10),
@@ -167,6 +188,8 @@ export default {
       const url = `${GET_URL}?filter[limit]=${limit}&filter[offset]=${offset}&filter[order]=receivedAt%20DESC&${this.filter.buildFilter()}`;
       axios.get(url).then(response => {
         response.data.map(function(item) {
+          const receivedAt = new Date(item.receivedAt);
+          item.receivedAtLocale = receivedAt.toLocaleDateString() + " " + receivedAt.toLocaleTimeString();
           item.devEuiHex = DataService.byteToHex(item.devEui.data);
           item.dataBase64 = DataService.byteToBase64(item.data.data);
           item.rxInfoDescription = "JSON";
@@ -174,84 +197,14 @@ export default {
         });
         this.eventItems = response.data;
       });
+    },
+
+    showRxInfo(item){
+      this.rxInfoCurrent = JSON.stringify(item.rxInfo, null, 4);
+      this.rxInfoDialog = true;
     }
   }
 };
-
-class UplinkFilter {
-  constructor() {
-    this.deviceName = "";
-    this.applicationName = "";
-    this.dateFrom = this.previousWeek()
-      .toISOString()
-      .substr(0, 10);
-    this.dateTo = new Date().toISOString().substr(0, 10);
-  }
-
-  buildFilter() {
-    return `${this.getFilterBetween()}${this.getFilterDeviceName()}${this.getFilterApplicationName()}`;
-  }
-
-  buildWhere() {
-    return `${this.getWhereBetween()}${this.getWhereDeviceName()}${this.getWhereApplicationName()}`;
-  }
-
-  getFilterBetween() {
-    const from = new Date(this.dateFrom).toISOString();
-    const to = new Date(`${this.dateTo}T23:59:59.999Z`).toISOString();
-    return `filter[where][receivedAt][between][0]=${from}&filter[where][receivedAt][between][1]=${to}`;
-  }
-
-  getWhereBetween() {
-    const from = new Date(this.dateFrom).toISOString();
-    const to = new Date(`${this.dateTo}T23:59:59.999Z`).toISOString();
-    return `where[receivedAt][between][0]=${from}&where[receivedAt][between][1]=${to}`;
-  }
-
-  getFilterDeviceName() {
-    let filter = "";
-    if (this.deviceName) {
-      filter = `&filter[where][deviceName][like]=%${this.deviceName}%`;
-    }
-    return filter;
-  }
-
-  getWhereDeviceName() {
-    let where = "";
-    if (this.deviceName) {
-      where = `&where[deviceName][like]=%${this.deviceName}%`;
-    }
-    return where;
-  }
-
-  getFilterApplicationName() {
-    let filter = "";
-    if (this.applicationName) {
-      filter = `&filter[where][applicationName][like]=%${this.applicationName}%`;
-    }
-    return filter;
-  }
-
-  getWhereApplicationName() {
-    let where = "";
-    if (this.applicationName) {
-      where = `&where[applicationName][like]=%${this.applicationName}%`;
-    }
-    return where;
-  }
-
-  previousMonth() {
-    const now = new Date();
-    return now.getMonth() === 0
-      ? new Date(now.getFullYear() - 1, 11, now.getDate())
-      : new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
-  }
-
-  previousWeek() {
-    const today = new Date();
-    return new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
-  }
-}
 </script>
 
 <style>

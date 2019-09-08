@@ -1,10 +1,8 @@
 import axios from "axios";
-// import store from 'vuex-store'
 import util from '../util'
 import config from "../../config/config";
 
 const networkAddress = config.APP_URL
-
 
 export default class BaseDao{
   async getCount(filter){
@@ -50,10 +48,10 @@ export default class BaseDao{
     const method = props.method
     const formData = props.data
 
-    let accessTokenId = ''
-    if (store.getters.accessToken) {
-      accessTokenId = store.getters.accessToken.id
-    }
+    // let accessTokenId = ''
+    // if (this.$store.getters.accessToken) {
+    //   accessTokenId = store.getters.accessToken.id
+    // }
 
     if (!(url && url.length)) {
       throw new RangeError('Url null or empty')
@@ -82,7 +80,7 @@ export default class BaseDao{
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'X-Access-Token': accessTokenId,
+        // 'X-Access-Token': accessTokenId,
       }
     })
   }

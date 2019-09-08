@@ -17,10 +17,13 @@ const mutations = {
 const actions = {
     async fetchUplinks({commit}, filter){
         const uplinkDao = new UplinkDao();
-        uplinkDao.getItems()
+        const result = uplinkDao.getItems(filter)
+        commit('FETCH_UPLINKS', result)
     },
     async fetchUplink({commit}, filter){
-        
+        const uplinkDao = new UplinkDao();
+        const result = uplinkDao.getItem(filter)
+        commit('FETCH_UPLINK', result)
     }
 };
 
