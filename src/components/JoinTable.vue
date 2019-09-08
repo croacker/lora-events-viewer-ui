@@ -35,7 +35,7 @@ export default {
         value: "id",
         key: true
       },
-      { text: "receivedAt", value: "receivedAt" },
+      { text: "receivedAt", value: "receivedAtLocale" },
       { text: "devEui", value: "devEuiHex" },
       { text: "deviceName", value: "deviceName" },
       { text: "applicationId", value: "applicationId" },
@@ -68,6 +68,8 @@ export default {
       const url = `${GET_URL}?filter[limit]=${limit}&filter[offset]=${offset}&filter[order]=receivedAt%20DESC`;
       axios.get(url).then(response => {
         response.data.map(function(item) {
+          const receivedAt = new Date(item.receivedAt);
+          item.receivedAtLocale = receivedAt.toLocaleDateString() + " " + receivedAt.toLocaleTimeString();
           item.devEuiHex = DataService.byteToHex(item.devEui.data);
           item.devAddr = DataService.byteToHex(item.devAddr.data);
           return item;
