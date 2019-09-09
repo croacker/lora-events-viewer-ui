@@ -4,42 +4,29 @@
       <v-list dense>
         <template v-for="item in items">
           <v-list-group
-                  v-if="item.children"
-                  :key="item.text"
-                  v-model="item.model"
-                  :prepend-icon="item.model ? item.icon : item['icon-alt']"
-                  append-icon=""
+            v-if="item.children"
+            :key="item.text"
+            v-model="item.model"
+            :prepend-icon="item.model ? item.icon : item['icon-alt']"
+            append-icon
           >
             <template v-slot:activator>
               <v-list-item>
                 <v-list-item-content>
-                  <v-list-item-title>
-                    {{ item.text }}
-                  </v-list-item-title>
+                  <v-list-item-title>{{ item.text }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </template>
-            <v-list-item
-                    v-for="child in item.children"
-                    :key="child.text"
-                    :to="child.routeto"
-            >
+            <v-list-item v-for="child in item.children" :key="child.text" :to="child.routeto">
               <v-list-item-action v-if="child.icon">
                 <v-icon>{{ child.icon }}</v-icon>
               </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title>
-                  {{ child.text }}
-                </v-list-item-title>
+                <v-list-item-title>{{ child.text }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list-group>
-          <v-divider
-                  v-else-if="item.divider"
-                  :key="item.text"
-                  dark
-                  class="my-4"
-          ></v-divider>
+          <v-divider v-else-if="item.divider" :key="item.text" dark class="my-4"></v-divider>
           <v-list-item v-else :key="item.text" :to="item.routeto">
             <v-list-item-action>
               <v-icon>{{ item.icon }}</v-icon>
@@ -52,7 +39,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar :clipped-left="$vuetify.breakpoint.lgAndUp" app color="blue darken-3" dark>
+    <v-app-bar :clipped-left="$vuetify.breakpoint.lgAndUp" app color="teal darken-3" dark>
       <v-toolbar-title style="width: 300px" class="ml-0 pl-4">
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <span class="hidden-sm-and-down">Lora Events</span>
@@ -86,7 +73,11 @@
               <v-text-field label="Payload" v-model="basePayload"></v-text-field>
             </v-col>
             <v-col cols="2">
-              <v-text-field readonly label="Версия протокола" v-model="encodedPayload.protocolVersion"></v-text-field>
+              <v-text-field
+                readonly
+                label="Версия протокола"
+                v-model="encodedPayload.protocolVersion"
+              ></v-text-field>
             </v-col>
             <v-col cols="2">
               <v-text-field readonly label="commandId" v-model="encodedPayload.commandId"></v-text-field>
@@ -159,15 +150,20 @@ export default {
     dialog: false,
     drawer: null,
     items: [
-      {icon: 'mdi-chevron-up',
-        'icon-alt': 'mdi-chevron-down',
+      {
+        icon: "mdi-chevron-up",
+        "icon-alt": "mdi-chevron-down",
         text: "Uplink",
-        children:[
+        children: [
           {
-            icon: "mdi-history", text: "Uplink data", routeto: "/"
+            icon: "mdi-history",
+            text: "Uplink data",
+            routeto: "/"
           },
           {
-            icon: "mdi-delete-variant", text: "LW-360HR payload", routeto: "/lw360hr"
+            icon: "mdi-delete-variant",
+            text: "LW-360HR payload",
+            routeto: "/lw360hr"
           }
         ]
       },
