@@ -46,7 +46,7 @@
           <v-date-picker v-model="filter.dateTo" @input="filterDateToChange"></v-date-picker>
         </v-menu>
       </v-col>
-      <v-col cols="12" sm="6" md="4">
+      <v-col cols="12" sm="6" md="3">
         <v-text-field
           v-model="filter.deviceName"
           label="Фильтр deviceName"
@@ -54,13 +54,16 @@
           @input="filterChange"
         ></v-text-field>
       </v-col>
-      <v-col cols="12" sm="6" md="4">
+      <v-col cols="12" sm="6" md="3">
         <v-text-field
           v-model="filter.applicationName"
           label="Фильтр applicationName"
           prepend-icon="mdi-filter"
           @input="filterChange"
         ></v-text-field>
+      </v-col>
+      <v-col cols="12" sm="6" md="2">
+<!--        <v-btn depressed class="ml-auto mt-2" color="teal lighten-1">Экспорт</v-btn>-->
       </v-col>
       <div class="flex-grow-1"></div>
     </v-row>
@@ -200,6 +203,7 @@ export default {
     },
 
     showRxInfo(item){
+      this.$store.dispatch('showRxInfoDialog');
       this.rxInfoCurrent = JSON.stringify(item.rxInfo, null, 4);
       this.rxInfoDialog = true;
     }

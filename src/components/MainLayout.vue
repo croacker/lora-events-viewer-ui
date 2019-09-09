@@ -39,7 +39,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar :clipped-left="$vuetify.breakpoint.lgAndUp" app color="teal darken-3" dark>
+    <v-app-bar :clipped-left="$vuetify.breakpoint.lgAndUp" app color="teal darken-1" dark>
       <v-toolbar-title style="width: 300px" class="ml-0 pl-4">
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <span class="hidden-sm-and-down">Lora Events</span>
@@ -141,6 +141,7 @@ import config from "../config/config";
 
 const FROM_BASE64 = `${config.APP_URL}/device-up-payload/from-base64/`;
 const FROM_HEX = `${config.APP_URL}/device-up-payload/from-hex/`;
+
 
 export default {
   props: {
