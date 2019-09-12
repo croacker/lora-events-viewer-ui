@@ -139,8 +139,8 @@
 import axios from "axios";
 import config from "../config/config";
 
-const FROM_BASE64 = `${config.APP_URL}/device-up-payload/from-base64/`;
-const FROM_HEX = `${config.APP_URL}/device-up-payload/from-hex/`;
+const FROM_BASE64 = `${config.APP_URL}/device-up-payload/lw-360-hr/from-base64/`;
+const FROM_HEX = `${config.APP_URL}/device-up-payload/lw-360-hr/from-hex/`;
 
 
 export default {
