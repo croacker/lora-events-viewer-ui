@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="rxInfoDialog" width="500">
+    <v-dialog v-model="rxInfoDialogOpened" width="500">
         <v-card>
             <v-card-title class="headline grey lighten-2" primary-title>
                 rxInfo
@@ -12,7 +12,7 @@
             ></v-textarea>
             <v-card-actions>
                 <div class="flex-grow-1"></div>
-                <v-btn color="primary" text @click="rxInfoDialog = false">Закрыть</v-btn>
+                <v-btn color="primary" text @click="hideRxInfoDialog">Закрыть</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -21,9 +21,19 @@
 <script>
 export default {
     name: 'rx-info-dialog',
-    props:[
-        'rxInfoDialog',
-        'rxInfoCurrent'
-    ]
+    data:() => ({
+        rxInfoDialogOpened: false,
+        rxInfoCurrent: {}
+    }),
+    mounted(){
+        this.rxInfoDialogOpened = this.$store.getter.rxInfoDialogOpened
+        this.rxInfoCurrent = this.$store.getter.rxInfoCurrent
+    },
+    methods:{
+        hideRxInfoDialog(){
+            this.$store.dispatch('hideRxInfoDialog')
+        }
+    }
+
 }
 </script>
