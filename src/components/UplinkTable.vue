@@ -46,18 +46,26 @@
           <v-date-picker v-model="filter.dateTo" @input="filterDateToChange"></v-date-picker>
         </v-menu>
       </v-col>
-      <v-col cols="12" sm="6" md="3">
+      <v-col cols="12" sm="6" md="2">
         <v-text-field
-          v-model="filter.deviceName"
-          label="Фильтр deviceName"
+          v-model="filter.deviceEui"
+          label="deviceEui"
           prepend-icon="mdi-filter"
           @input="filterChange"
         ></v-text-field>
       </v-col>
-      <v-col cols="12" sm="6" md="3">
+      <v-col cols="12" sm="6" md="2">
+        <v-text-field
+                v-model="filter.deviceName"
+                label="deviceName"
+                prepend-icon="mdi-filter"
+                @input="filterChange"
+        ></v-text-field>
+      </v-col>
+      <v-col cols="12" sm="6" md="2">
         <v-text-field
           v-model="filter.applicationName"
-          label="Фильтр applicationName"
+          label="applicationName"
           prepend-icon="mdi-filter"
           @input="filterChange"
         ></v-text-field>

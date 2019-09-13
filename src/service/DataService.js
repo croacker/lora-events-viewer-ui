@@ -1,11 +1,11 @@
-const deviceMethods{
-    Lw360hr = '/device-up-payload/lw-360-hr/from-base64/',
-    Goodwin = '/device-up-payload/goodwin/from-base64/'
-}
+const deviceMethods = {
+    Lw360hr: '/device-up-payload/lw-360-hr/from-base64/',
+    Goodwin: '/device-up-payload/goodwin/from-base64/'
+};
 
 export default {
     byteToHex(arr) {
-        return Array.from(arr, function(byte) {
+        return Array.from(arr, function (byte) {
             return ("0" + (byte & 0xff).toString(16)).slice(-2);
         }).join("");
     },
@@ -18,14 +18,16 @@ export default {
         }
         return btoa(binary);
     },
-    getPayloadMethod(str64){
+
+    getPayloadMethod(str64) {
         let method = ''
-        if(str64){
-        if(str64.len == 50){
-            method = deviceMethods.Lw360hr;
-        }else if(str64.len == 30){
-            method = deviceMethods.Goodwin;
+        if (str64) {
+            if (str64.len == 50) {
+                method = deviceMethods.Lw360hr;
+            } else if (str64.len == 30) {
+                method = deviceMethods.Goodwin;
+            }
+            return method;
         }
-        return method;
     }
 }

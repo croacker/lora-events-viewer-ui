@@ -1,5 +1,6 @@
 export default class UplinkFilter {
     constructor() {
+        this.deviceEui = "";
         this.deviceName = "";
         this.applicationName = "";
         this.dateFrom = this.previousWeek()
@@ -9,11 +10,11 @@ export default class UplinkFilter {
     }
 
     buildFilter() {
-        return `${this.getFilterBetween()}${this.getFilterDeviceName()}${this.getFilterApplicationName()}`;
+        return `${this.getFilterBetween()}${this.getFilterDeviceEui()}${this.getFilterDeviceName()}${this.getFilterApplicationName()}`;
     }
 
     buildWhere() {
-        return `${this.getWhereBetween()}${this.getWhereDeviceName()}${this.getWhereApplicationName()}`;
+        return `${this.getWhereBetween()}${this.getWhereDeviceEui()}${this.getWhereDeviceName()}${this.getWhereApplicationName()}`;
     }
 
     getFilterBetween() {
@@ -28,6 +29,7 @@ export default class UplinkFilter {
         return `where[receivedAt][between][0]=${from}&where[receivedAt][between][1]=${to}`;
     }
 
+
     getFilterDeviceName() {
         let filter = "";
         if (this.deviceName) {
@@ -40,6 +42,22 @@ export default class UplinkFilter {
         let where = "";
         if (this.deviceName) {
             where = `&where[deviceName][like]=%${this.deviceName}%`;
+        }
+        return where;
+    }
+
+    getFilterDeviceEui() {
+        let filter = "";
+        if (this.deviceEui) {
+            filter = `&filter[where][deviceEui][like]=%${this.deviceEui}%`;
+        }
+        return filter;
+    }
+
+    getWhereDeviceEui() {
+        let where = "";
+        if (this.deviceEui) {
+            where = `&where[deviceEui][like]=%${this.deviceEui}%`;
         }
         return where;
     }
