@@ -16,6 +16,7 @@
 <script>
 import axios from "axios";
 import config from "../config/config";
+import ErrorFilter from "../service/filter/error-filter";
 import DataService from "../service/DataService";
 
 const GET_URL = `${config.APP_URL}/device-errors`;
@@ -44,7 +45,8 @@ export default {
       { text: "error", value: "error" },
       { text: "fCnt", value: "fCnt" }
     ],
-    eventItems: []
+    eventItems: [],
+    filter: new ErrorFilter()
   }),
   created: function() {
     this.getTotalCount();
@@ -71,7 +73,10 @@ export default {
       axios.get(url).then(response => {
         response.data.map(function(item) {
           const receivedAt = new Date(item.receivedAt);
-          item.receivedAtLocale = receivedAt.toLocaleDateString() + " " + receivedAt.toLocaleTimeString();
+          item.receivedAtLocale =
+            receivedAt.toLocaleDateString() +
+            " " +
+            receivedAt.toLocaleTimeString();
           item.devEuiHex = DataService.byteToHex(item.devEui.data);
           item.rxInfoDescription = "JSON";
           return item;

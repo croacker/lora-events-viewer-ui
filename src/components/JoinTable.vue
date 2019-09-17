@@ -16,6 +16,7 @@
 <script>
 import axios from "axios";
 import config from "../config/config";
+import JoinFilter from "../service/filter/join-filter";
 import DataService from "../service/DataService";
 
 const GET_URL = `${config.APP_URL}/device-joins`;
@@ -42,7 +43,8 @@ export default {
       { text: "applicationName", value: "applicationName" },
       { text: "devAddr", value: "devAddr" }
     ],
-    eventItems: []
+    eventItems: [],
+    filter: new JoinFilter()
   }),
   created: function() {
     this.getTotalCount();
@@ -69,7 +71,10 @@ export default {
       axios.get(url).then(response => {
         response.data.map(function(item) {
           const receivedAt = new Date(item.receivedAt);
-          item.receivedAtLocale = receivedAt.toLocaleDateString() + " " + receivedAt.toLocaleTimeString();
+          item.receivedAtLocale =
+            receivedAt.toLocaleDateString() +
+            " " +
+            receivedAt.toLocaleTimeString();
           item.devEuiHex = DataService.byteToHex(item.devEui.data);
           item.devAddr = DataService.byteToHex(item.devAddr.data);
           return item;

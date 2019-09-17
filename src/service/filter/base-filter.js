@@ -1,20 +1,12 @@
-export default class UplinkFilter {
+export default class BaseFilter {
     constructor() {
-        this.deviceEui = "";
-        this.deviceName = "";
-        this.applicationName = "";
+        this.devEui = '';
+        this.deviceName = '';
+        this.applicationName = '';
         this.dateFrom = this.previousWeek()
             .toISOString()
             .substr(0, 10);
         this.dateTo = new Date().toISOString().substr(0, 10);
-    }
-
-    buildFilter() {
-        return `${this.getFilterBetween()}${this.getFilterDeviceEui()}${this.getFilterDeviceName()}${this.getFilterApplicationName()}`;
-    }
-
-    buildWhere() {
-        return `${this.getWhereBetween()}${this.getWhereDeviceEui()}${this.getWhereDeviceName()}${this.getWhereApplicationName()}`;
     }
 
     getFilterBetween() {
@@ -31,7 +23,7 @@ export default class UplinkFilter {
 
 
     getFilterDeviceName() {
-        let filter = "";
+        let filter = '';
         if (this.deviceName) {
             filter = `&filter[where][deviceName][like]=%${this.deviceName}%`;
         }
@@ -39,31 +31,31 @@ export default class UplinkFilter {
     }
 
     getWhereDeviceName() {
-        let where = "";
+        let where = '';
         if (this.deviceName) {
             where = `&where[deviceName][like]=%${this.deviceName}%`;
         }
         return where;
     }
 
-    getFilterDeviceEui() {
-        let filter = "";
-        if (this.deviceEui) {
-            filter = `&filter[where][deviceEui][like]=%${this.deviceEui}%`;
+    getFilterDevEui() {
+        let filter = '';
+        if (this.devEui) {
+            filter = `&filter[where][devEui][like]=%${this.devEui}%`;
         }
         return filter;
     }
 
-    getWhereDeviceEui() {
-        let where = "";
-        if (this.deviceEui) {
-            where = `&where[deviceEui][like]=%${this.deviceEui}%`;
+    getWhereDevEui() {
+        let where = '';
+        if (this.devEui) {
+            where = `&where[devEui][like]=%${this.devEui}%`;
         }
         return where;
     }
 
     getFilterApplicationName() {
-        let filter = "";
+        let filter = '';
         if (this.applicationName) {
             filter = `&filter[where][applicationName][like]=%${this.applicationName}%`;
         }
@@ -71,7 +63,7 @@ export default class UplinkFilter {
     }
 
     getWhereApplicationName() {
-        let where = "";
+        let where = '';
         if (this.applicationName) {
             where = `&where[applicationName][like]=%${this.applicationName}%`;
         }

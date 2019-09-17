@@ -1,5 +1,11 @@
 
-export default class BaseMapper{
+import DataService from "../DataService";
+
+export default class BaseMapper {
+  get fieldMap() {
+    throw new Error('Not implemented RootItemDataMapper.fieldMap')
+  }
+
   convertCollection(data) {
     let result = []
 
@@ -25,5 +31,14 @@ export default class BaseMapper{
       item[internalKey] = value
     }
     return item
+  }
+
+  receivedAtToLocaleDate(item) {
+    const date = new Date(item.receivedAt);
+    return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+  }
+
+  dataToBase64(item) {
+    return DataService.byteToBase64(item.data.data)
   }
 }

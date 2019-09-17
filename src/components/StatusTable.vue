@@ -16,6 +16,7 @@
 <script>
 import axios from "axios";
 import config from "../config/config";
+import StatusFilter from "../service/filter/status-filter";
 import DataService from "../service/DataService";
 
 const GET_URL = `${config.APP_URL}/device-statuses`;
@@ -45,7 +46,8 @@ export default {
       { text: "batteryLevelUnavailable", value: "batteryLevelUnavailable" },
       { text: "batteryLevel", value: "batteryLevel" }
     ],
-    eventItems: []
+    eventItems: [],
+    filter: new StatusFilter()
   }),
   created: function() {
     this.getTotalCount();
@@ -72,7 +74,10 @@ export default {
       axios.get(url).then(response => {
         response.data.map(function(item) {
           const receivedAt = new Date(item.receivedAt);
-          item.receivedAtLocale = receivedAt.toLocaleDateString() + " " + receivedAt.toLocaleTimeString();
+          item.receivedAtLocale =
+            receivedAt.toLocaleDateString() +
+            " " +
+            receivedAt.toLocaleTimeString();
           item.devEuiHex = DataService.byteToHex(item.devEui.data);
           return item;
         });

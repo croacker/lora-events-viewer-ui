@@ -16,6 +16,7 @@
 <script>
 import axios from "axios";
 import config from "../config/config";
+import AckFilter from "../service/filter/ack-filter";
 import DataService from "../service/DataService";
 
 const GET_URL = `${config.APP_URL}/device-acks`;
@@ -43,7 +44,8 @@ export default {
       { text: "acknowledged", value: "acknowledged" },
       { text: "fCnt", value: "fCnt" }
     ],
-    eventItems: []
+    eventItems: [],
+    filter: new AckFilter()
   }),
   created: function() {
     this.getTotalCount();
@@ -70,7 +72,10 @@ export default {
       axios.get(url).then(response => {
         response.data.map(function(item) {
           const receivedAt = new Date(item.receivedAt);
-          item.receivedAtLocale = receivedAt.toLocaleDateString() + " " + receivedAt.toLocaleTimeString();
+          item.receivedAtLocale =
+            receivedAt.toLocaleDateString() +
+            " " +
+            receivedAt.toLocaleTimeString();
           item.devEuiHex = DataService.byteToHex(item.devEui.data);
           item.rxInfoDescription = "JSON";
           return item;
