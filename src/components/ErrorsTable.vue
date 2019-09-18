@@ -92,7 +92,7 @@
 import axios from "axios";
 import config from "../config/config";
 import ErrorFilter from "../service/filter/error-filter";
-import DataService from "../service/DataService";
+import ErrorMapper from "../service/mapper/error-mapper";
 
 const GET_URL = `${config.APP_URL}/device-errors`;
 
@@ -160,17 +160,10 @@ export default {
       const offset = limit * (this.options.page - 1);
       const url = `${GET_URL}?filter[limit]=${limit}&filter[offset]=${offset}&filter[order]=receivedAt%20DESC&${this.filter.buildFilter()}`;
       axios.get(url).then(response => {
-        response.data.map(function(item) {
-          const receivedAt = new Date(item.receivedAt);
-          item.receivedAtLocale =
-            receivedAt.toLocaleDateString() +
-            " " +
-            receivedAt.toLocaleTimeString();
-          item.devEuiHex = DataService.byteToHex(item.devEui.data);
-          item.rxInfoDescription = "JSON";
-          return item;
+        const mapper = new ErrorMapper();
+        this.eventItems = response.data.map(function(item) {
+          return mapper.map(item);
         });
-        this.eventItems = response.data;
       });
     },
     byteToHex(arr) {
