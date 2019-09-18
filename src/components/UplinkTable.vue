@@ -144,9 +144,9 @@ export default {
       { text: "rxInfo", value: "rxInfo" }
     ],
     eventItems: [],
-    dateFrom: new Date().toISOString().substr(0, 10),
+    // dateFrom: new Date().toISOString().substr(0, 10),
     menuDateFrom: false,
-    dateTo: new Date().toISOString().substr(0, 10),
+    // dateTo: new Date().toISOString().substr(0, 10),
     menuDateTo: false,
     filter: new UplinkFilter()
   }),
