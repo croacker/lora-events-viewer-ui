@@ -1,6 +1,6 @@
 <template>
-<div class="full-width-data-table">
-  <v-row>
+  <div class="full-width-data-table">
+    <v-row>
       <v-col cols="12" sm="6" md="2">
         <v-menu
           ref="menuDateFrom"
@@ -73,19 +73,19 @@
       <v-col cols="12" sm="6" md="2"></v-col>
       <div class="flex-grow-1"></div>
     </v-row>
-  <v-data-table
-    dense
-    :headers="headers"
-    :items="eventItems"
-    :options="options"
-    :server-items-length="serverItemsLength"
-    item-key="id"
-    class="elevation-1 full-width-data-table"
-    @update:page="pageChange"
-    @update:items-per-page="itemsPerPageChange"
-    fill-height
-  ></v-data-table>
-</div>
+    <v-data-table
+      dense
+      :headers="headers"
+      :items="eventItems"
+      :options="options"
+      :server-items-length="serverItemsLength"
+      item-key="id"
+      class="elevation-1 full-width-data-table"
+      @update:page="pageChange"
+      @update:items-per-page="itemsPerPageChange"
+      fill-height
+    ></v-data-table>
+  </div>
 </template>
 
 <script>
@@ -94,15 +94,15 @@ import config from "../config/config";
 import StatusFilter from "../service/filter/status-filter";
 import StatusMapper from "../service/mapper/status-mapper";
 
-const GET_URL = `${config.APP_URL}/device-statuses`;
+const GET_URL = `${config.APP_URL}/device-statuse-vs`;
 
 export default {
   data: () => ({
     options: {
       page: 1,
-      itemsPerPage: 10
+      itemsPerPage: 15
     },
-    serverItemsLength: 10,
+    serverItemsLength: 15,
     headers: [
       {
         text: "id",
@@ -111,8 +111,8 @@ export default {
         value: "id",
         key: true
       },
-      { text: "receivedAt", value: "receivedAtLocale" },
-      { text: "devEui", value: "devEuiHex" },
+      { text: "receivedAt", value: "receivedAt" },
+      { text: "devEui", value: "devEui" },
       { text: "deviceName", value: "deviceName" },
       { text: "applicationId", value: "applicationId" },
       { text: "applicationName", value: "applicationName" },

@@ -94,15 +94,15 @@ import config from "../config/config";
 import LocationFilter from "../service/filter/location-filter";
 import LocationMapper from "../service/mapper/location-mapper";
 
-const GET_URL = `${config.APP_URL}/device-locations`;
+const GET_URL = `${config.APP_URL}/device-location-vs`;
 
 export default {
   data: () => ({
     options: {
       page: 1,
-      itemsPerPage: 10
+      itemsPerPage: 15
     },
-    serverItemsLength: 10,
+    serverItemsLength: 15,
     headers: [
       {
         text: "id",
@@ -111,8 +111,8 @@ export default {
         value: "id",
         key: true
       },
-      { text: "receivedAt", value: "receivedAtLocale" },
-      { text: "devEui", value: "devEuiHex" },
+      { text: "receivedAt", value: "receivedAt" },
+      { text: "devEui", value: "devEui" },
       { text: "deviceName", value: "deviceName" },
       { text: "applicationId", value: "applicationId" },
       { text: "applicationName", value: "applicationName" },

@@ -94,15 +94,15 @@ import config from "../config/config";
 import JoinFilter from "../service/filter/join-filter";
 import JoinMapper from "../service/mapper/join-mapper";
 
-const GET_URL = `${config.APP_URL}/device-joins`;
+const GET_URL = `${config.APP_URL}/device-join-vs`;
 
 export default {
   data: () => ({
     options: {
       page: 1,
-      itemsPerPage: 10
+      itemsPerPage: 15
     },
-    serverItemsLength: 10,
+    serverItemsLength: 15,
     headers: [
       {
         text: "id",
@@ -111,8 +111,8 @@ export default {
         value: "id",
         key: true
       },
-      { text: "receivedAt", value: "receivedAtLocale" },
-      { text: "devEui", value: "devEuiHex" },
+      { text: "receivedAt", value: "receivedAt" },
+      { text: "devEui", value: "devEui" },
       { text: "deviceName", value: "deviceName" },
       { text: "applicationId", value: "applicationId" },
       { text: "applicationName", value: "applicationName" },
